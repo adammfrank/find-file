@@ -29,12 +29,8 @@ public class MainPanel extends JPanel {
         setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, forwardKeys);
         setFocusTraversalKeys(KeyboardFocusManager.BACKWARD_TRAVERSAL_KEYS, backwardKeys);
 
-        this.setLayout(new GridLayout(2,1));
-        //this.setPreferredSize(new Dimension(200,200));
-
-        JFrame frame = new JFrame();
-        frame.pack();
-
+        this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+        this.setPreferredSize(new Dimension(500,500));
         this.add(pathTextField);
         this.add(fileList);
     }
