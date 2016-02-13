@@ -42,18 +42,24 @@ public class PathTextField extends JTextField{
                             else {
                                 DefaultListModel listModel = (DefaultListModel) parentPanel.getFileList().getModel();
                                 listModel.removeAllElements();
+                                Pattern childPattern = Pattern.compile(directory + filePrefix + ".*");
                                 for(int i = 0; i < children.length; ++i) {
-                                    Pattern childPattern = Pattern.compile(directory + filePrefix + ".*");
                                     if(childPattern.matcher(children[i].getPath()).matches()) {
                                         listModel.addElement(children[i].getPath());
                                     }
 
                                 }
-                                parentPanel.remove(1);
-                                parentPanel.add(new JBList(listModel));
-                                parentPanel.setMinimumSize(new Dimension(400, children.length * 20));
-                                parentPanel.revalidate();
-                                parentPanel.repaint();
+                                if(listModel.getSize() == 1) {
+                                    setText(listModel.getElementAt(0).toString());
+                                }
+                                else {
+                                    parentPanel.remove(1);
+                                    parentPanel.add(new JBList(listModel));
+                                    parentPanel.setMinimumSize(new Dimension(400, children.length * 20));
+                                    parentPanel.revalidate();
+                                    parentPanel.repaint();
+                                }
+
 
                             }
                         }
@@ -74,6 +80,9 @@ public class PathTextField extends JTextField{
             if(file != null) {
                 OpenFileDescriptor ofd = new OpenFileDescriptor(parentPanel.getProject(), file);
                 ofd.navigate(false);
+            }
+            else {
+
             }
         }
     };
