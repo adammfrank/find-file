@@ -4,7 +4,10 @@ import com.intellij.openapi.actionSystem.DataKeys;
 import com.intellij.openapi.actionSystem.PlatformDataKeys;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.ui.popup.JBPopup;
 import com.intellij.openapi.ui.popup.JBPopupFactory;
+import com.intellij.openapi.ui.popup.JBPopupListener;
+import com.intellij.openapi.ui.popup.LightweightWindowEvent;
 import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.openapi.fileEditor.OpenFileDescriptor;
@@ -23,6 +26,7 @@ public class PopupAction extends AnAction {
     JBList fileList;
     PathTextField pathTexField;
     VirtualFile currentFile;
+    PopupController controller;
 
     @Override
     public void actionPerformed(AnActionEvent e) {
@@ -35,16 +39,22 @@ public class PopupAction extends AnAction {
 
         Editor myEditor = DataKeys.EDITOR.getData(e.getDataContext());
 
-        JBPopupFactory.getInstance().createComponentPopupBuilder(panel, pathTexField).createPopup().showInBestPositionFor(e.getData(PlatformDataKeys.EDITOR));
+        JBPopup popup = JBPopupFactory.getInstance().createComponentPopupBuilder(panel, pathTexField).createPopup();
+        controller = new PopupController(popup, panel);
 
+        popup.showInBestPositionFor(e.getData(PlatformDataKeys.EDITOR));
 
-//        System.out.println("file path " + DataKeys.VIRTUAL_FILE.getData(e.getDataContext()).getPath());
-//        VirtualFile currentFile = LocalFileSystem.getInstance().findFileByPath("/home/adam/IdeaProjects/test-project/src/com/company");
-//        System.out.println("parent path " + currentFile.getParent().getPath());
-//        Project myProject = DataKeys.PROJECT.getData(e.getDataContext());
-//        VirtualFile sibling = LocalFileSystem.getInstance().findFileByPath("/home/adam/IdeaProjects/test-project/src/com/company/Test.java");
-//        OpenFileDescriptor ofd = new OpenFileDescriptor(myProject, sibling);
-//        ofd.navigate(false);
+        popup.addListener(new JBPopupListener() {
+            @Override
+            public void beforeShown(LightweightWindowEvent event) {
+
+            }
+
+            @Override
+            public void onClosed(LightweightWindowEvent event) {
+
+            }
+        });
     }
 }
 
