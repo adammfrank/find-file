@@ -8,6 +8,7 @@ import com.intellij.ui.components.JBList;
 import org.jdesktop.swingx.action.ActionManager;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
@@ -110,7 +111,7 @@ public class PathTextField extends JTextField{
                                     }
 
                                     parentPanel.remove(1);
-                                    parentPanel.add(new JBList(listModel));
+                                    parentPanel.add(new FileList(listModel));
                                     parentPanel.setMinimumSize(new Dimension(400, children.length * 20));
                                     parentPanel.revalidate();
                                     parentPanel.repaint();
@@ -139,7 +140,7 @@ public class PathTextField extends JTextField{
 
                     }
                     else {
-                        parentPanel.getFileList().setEmptyText("");
+                        //parentPanel.getFileList().setEmptyText("");
 
                     }
                 }
@@ -150,6 +151,7 @@ public class PathTextField extends JTextField{
     Action loadFile = new AbstractAction() {
         @Override
         public void actionPerformed(ActionEvent e) {
+
             String path = getText();
             VirtualFile file = LocalFileSystem.getInstance().findFileByPath(path);
             if(file != null) {

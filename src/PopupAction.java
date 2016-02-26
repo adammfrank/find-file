@@ -23,7 +23,7 @@ import javax.swing.*;
  */
 public class PopupAction extends AnAction {
     MainPanel panel;
-    JBList fileList;
+    FileList fileList;
     PathTextField pathTexField;
     VirtualFile currentFile;
     PopupController controller;

@@ -22,12 +22,16 @@ import java.util.Set;
  */
 public class MainPanel extends JPanel {
     private PathTextField pathTextField = new PathTextField(20, this);
-    private JBList fileList = new JBList(new DefaultListModel());
+    private FileList fileList;
     private JScrollPane scrollPane = new JBScrollPane();
     private Project project;
     public MainPanel(Project project) {
         super();
-
+        DefaultListModel<String> model = new DefaultListModel<>();
+//        model.addElement("first");
+//        model.addElement("second");
+//        model.addElement("third");
+        fileList = new FileList(model);
         this.project = project;
 
         Set<KeyStroke> forwardKeys = new HashSet<KeyStroke>(1);
@@ -41,62 +45,9 @@ public class MainPanel extends JPanel {
         this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
         this.setPreferredSize(new Dimension(500, 500));
         scrollPane.add(fileList);
+        //this.add(fileList);
         this.add(pathTextField);
         this.add(scrollPane);
-        this.addMouseListener(new MouseListener() {
-
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                System.out.println("Panel Clicked");
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-                System.out.println("Panel Pressed");
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-                System.out.println("Panel Released");
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                System.out.println("Panel Entered");
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                System.out.println("Panel Exited");
-            }
-        });
-        fileList.addMouseListener(new MouseListener() {
-
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                System.out.println("Clicked");
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-                System.out.println("Pressed");
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-                System.out.println("Released");
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                System.out.println("Entered");
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                System.out.println("Exited");
-            }
-        });
 
 //        fileList.addListSelectionListener(new ListSelectionListener() {
 //            @Override
@@ -123,7 +74,7 @@ public class MainPanel extends JPanel {
         return pathTextField;
     }
 
-    public JBList getFileList() {
+    public FileList getFileList() {
         return fileList;
     }
 
