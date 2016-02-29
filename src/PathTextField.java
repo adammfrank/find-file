@@ -11,6 +11,7 @@ import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.regex.*;
@@ -27,6 +28,7 @@ public class PathTextField extends JTextField{
         this.getActionMap().put("tab", listFiles);
         this.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), "enter");
         this.getActionMap().put("enter", loadFile);
+
     }
 
     /**
@@ -111,7 +113,7 @@ public class PathTextField extends JTextField{
                                     }
 
                                     parentPanel.remove(1);
-                                    parentPanel.add(new FileList(listModel));
+                                    parentPanel.add(new FileList(listModel, parentPanel));
                                     parentPanel.setMinimumSize(new Dimension(400, children.length * 20));
                                     parentPanel.revalidate();
                                     parentPanel.repaint();
@@ -157,9 +159,8 @@ public class PathTextField extends JTextField{
             if(file != null) {
                 OpenFileDescriptor ofd = new OpenFileDescriptor(parentPanel.getProject(), file);
                 ofd.navigate(false);
-                ActionManager actionManager = ActionManager.getInstance();
-                System.out.println(" escape " + actionManager.getAction("EditorEscape"));
-                actionManager.getAction(IdeActions.ACTION_EDITOR_ESCAPE).actionPerformed(e);
+                parentPanel.getPopup().closeOk(null);
+
             }
             else {
 

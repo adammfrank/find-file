@@ -30,31 +30,22 @@ public class PopupAction extends AnAction {
 
     @Override
     public void actionPerformed(AnActionEvent e) {
+        JPanel outerPanel = new JPanel();
+        JBPopup popup = JBPopupFactory.getInstance().createComponentPopupBuilder(outerPanel, pathTexField).createPopup();
 
-        panel = new MainPanel(DataKeys.PROJECT.getData(e.getDataContext()));
+        panel = new MainPanel(DataKeys.PROJECT.getData(e.getDataContext()), popup);
         currentFile = DataKeys.VIRTUAL_FILE.getData(e.getDataContext());
         pathTexField = panel.getPathTextField();
         fileList = panel.getFileList();
         pathTexField.setText(currentFile.getPath());
+        outerPanel.add(panel);
 
-        Editor myEditor = DataKeys.EDITOR.getData(e.getDataContext());
 
-        JBPopup popup = JBPopupFactory.getInstance().createComponentPopupBuilder(panel, pathTexField).createPopup();
-        controller = new PopupController(popup, panel);
+
 
         popup.showInBestPositionFor(e.getData(PlatformDataKeys.EDITOR));
 
-        popup.addListener(new JBPopupListener() {
-            @Override
-            public void beforeShown(LightweightWindowEvent event) {
 
-            }
-
-            @Override
-            public void onClosed(LightweightWindowEvent event) {
-
-            }
-        });
     }
 }
 

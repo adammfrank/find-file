@@ -1,5 +1,6 @@
 import com.intellij.openapi.fileEditor.OpenFileDescriptor;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.ui.popup.JBPopup;
 import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.ui.components.JBList;
@@ -25,14 +26,18 @@ public class MainPanel extends JPanel {
     private FileList fileList;
     private JScrollPane scrollPane = new JBScrollPane();
     private Project project;
-    public MainPanel(Project project) {
+    private JBPopup popup;
+
+    public JBPopup getPopup() {
+        return popup;
+    }
+
+    public MainPanel(Project project, JBPopup popup) {
         super();
         DefaultListModel<String> model = new DefaultListModel<>();
-//        model.addElement("first");
-//        model.addElement("second");
-//        model.addElement("third");
-        fileList = new FileList(model);
+        fileList = new FileList(model, this);
         this.project = project;
+        this.popup = popup;
 
         Set<KeyStroke> forwardKeys = new HashSet<KeyStroke>(1);
         forwardKeys.add(KeyStroke.getKeyStroke(KeyEvent.VK_TAB, InputEvent.CTRL_MASK));
@@ -45,27 +50,10 @@ public class MainPanel extends JPanel {
         this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
         this.setPreferredSize(new Dimension(500, 500));
         scrollPane.add(fileList);
-        //this.add(fileList);
+
         this.add(pathTextField);
         this.add(scrollPane);
 
-//        fileList.addListSelectionListener(new ListSelectionListener() {
-//            @Override
-//            public void valueChanged(ListSelectionEvent e) {
-//                System.out.println("Value changed");
-//                String selectedFile = fileList.getSelectedValue().toString();
-//                System.out.println("Selected file " + selectedFile);
-//                VirtualFile destination = LocalFileSystem.getInstance().findFileByPath(pathTextField.getText()
-//                        + selectedFile);
-//
-//                if (destination.isDirectory()) {
-//                    pathTextField.setText(destination.getPath());
-//                } else {
-//                    OpenFileDescriptor ofd = new OpenFileDescriptor(project, destination);
-//                    ofd.navigate(false);
-//                }
-//            }
-//        });
 
 
     }
