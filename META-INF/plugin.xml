@@ -38,9 +38,11 @@
 
   <actions>
     <!-- Add your actions here -->
-    <action id="PopupAction" class="PopupAction" text="Popup Action" description="Create a popup">
-      <add-to-group group-id="ToolsMenu" anchor="first"/>
+    <action id="PopupAction" class="PopupAction" text="Find-File" description="Create a popup">
+      <add-to-group group-id="GoToMenu"/>
+      <keyboard-shortcut first-keystroke="control x" second-keystroke="control f" keymap="Emacs"/>
     </action>
+
   </actions>
 
 </idea-plugin>

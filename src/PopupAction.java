@@ -26,7 +26,6 @@ public class PopupAction extends AnAction {
     FileList fileList;
     PathTextField pathTexField;
     VirtualFile currentFile;
-    PopupController controller;
 
     @Override
     public void actionPerformed(AnActionEvent e) {

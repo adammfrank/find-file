@@ -1,4 +1,5 @@
 import com.intellij.openapi.fileEditor.OpenFileDescriptor;
+import com.intellij.openapi.keymap.KeymapManager;
 import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.ui.components.JBList;
@@ -23,6 +24,8 @@ public class FileList extends JBList implements ListSelectionListener {
         valueChanged(new ListSelectionEvent(this, 0, 1, true));
         this.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         this.parentPanel = parentPanel;
+        System.out.println("Keymap: " + KeymapManager.getInstance().getActiveKeymap());
+
     }
 
 

@@ -28,9 +28,7 @@ public class MainPanel extends JPanel {
     private Project project;
     private JBPopup popup;
 
-    public JBPopup getPopup() {
-        return popup;
-    }
+
 
     public MainPanel(Project project, JBPopup popup) {
         super();
@@ -68,5 +66,9 @@ public class MainPanel extends JPanel {
 
     public Project getProject() {
         return project;
+    }
+
+    public JBPopup getPopup() {
+        return popup;
     }
 }
