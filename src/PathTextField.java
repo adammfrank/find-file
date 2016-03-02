@@ -136,13 +136,24 @@ public class PathTextField extends JTextField{
                         }
 
                         String newPathText = matchingFiles(childPaths, filePrefix);
-                        System.out.println("newPathText " + newPathText);
+                        if(newPathText.equals(filePrefix)) {
+                            setText(directory);
+                            parentPanel.remove(1);
+                            parentPanel.add(new FileList(listModel, parentPanel));
+                            parentPanel.setMinimumSize(new Dimension(400, children.length * 20));
+                            parentPanel.revalidate();
+                            parentPanel.repaint();
+                        }
+                        else {
+                            System.out.println("newPathText " + newPathText);
 
-                        setText(directory + newPathText);
+                            setText(directory + newPathText);
+                        }
+
 
                     }
                     else {
-                        //parentPanel.getFileList().setEmptyText("");
+                        parentPanel.getFileList().setEmptyText("");
 
                     }
                 }
