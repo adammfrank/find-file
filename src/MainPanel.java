@@ -1,19 +1,10 @@
-import com.intellij.openapi.fileEditor.OpenFileDescriptor;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.popup.JBPopup;
-import com.intellij.openapi.vfs.LocalFileSystem;
-import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.ui.components.JBList;
 import com.intellij.ui.components.JBScrollPane;
-
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -27,6 +18,9 @@ public class MainPanel extends JPanel {
     private JScrollPane scrollPane = new JBScrollPane();
     private Project project;
     private JBPopup popup;
+
+    public static final int TEXT_FIELD_POSITION = 0;
+    public static final int LIST_POSITION = 1;
 
 
 

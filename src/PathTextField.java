@@ -1,17 +1,10 @@
-import com.intellij.openapi.actionSystem.IdeActions;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.fileEditor.OpenFileDescriptor;
-import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.ui.components.JBList;
-import org.jdesktop.swingx.action.ActionManager;
-
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.regex.*;
@@ -29,6 +22,10 @@ public class PathTextField extends JTextField{
         this.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), "enter");
         this.getActionMap().put("enter", loadFile);
 
+        this.setMinimumSize(new Dimension(20, 20));
+        this.setMaximumSize(new Dimension(20,20));
+
+
     }
 
     /**
@@ -40,16 +37,13 @@ public class PathTextField extends JTextField{
      * return is "Main".
      */
     private String matchingFiles(ArrayList<String> files, String filePrefix) {
-        System.out.println("filePrefix " + filePrefix);
         Pattern prefixPattern = Pattern.compile("^" + Pattern.quote(filePrefix) + ".*");
         ArrayList<String> filesWithPrefix = new ArrayList<String>();
         for(String f : files) {
             String truncF = f.substring(f.lastIndexOf("/"));
-            System.out.println(truncF);
 
             if(prefixPattern.matcher(truncF).matches()) {
                 filesWithPrefix.add(truncF);
-                System.out.println("has prefix " + truncF);
             }
         }
         int stringLen = filesWithPrefix.get(0).length();
@@ -62,13 +56,11 @@ public class PathTextField extends JTextField{
             match = filesWithPrefix.get(0).charAt(i);
             for(int j = 0; j < filesLength; j++) {
                 if(filesWithPrefix.get(j).length() < i + 1 || filesWithPrefix.get(j).charAt(i) != match) {
-                    System.out.println("beginning inside " + beginning.toString());
                     return beginning.toString();
                 }
             }
             beginning.append(match);
         }
-        System.out.println("beginning outside " + beginning.toString());
         return beginning.toString();
     }
     Action listFiles = new AbstractAction() {
@@ -85,15 +77,12 @@ public class PathTextField extends JTextField{
 
                     if(currentPathFile != null) {
                         if(currentPathFile.isDirectory()) {
-                            System.out.println("Directory");
                             if(pathText.charAt(pathText.length() -1) != '/') {
                                 setText(pathText + '/');
                             }
                             else {
                                 VirtualFile[] children = currentPathFile.getChildren();
-                                System.out.println("Children size" + children.length);
                                 if(children.length == 1) {
-                                    System.out.println("First child " + children[0].getPath());
                                     if(children[0].isDirectory()) {
                                         setText(children[0].getPath() + '/');
                                     }
@@ -112,17 +101,12 @@ public class PathTextField extends JTextField{
                                         listModel.addElement(children[i].getPath().substring(children[i].getPath().lastIndexOf("/")));
                                     }
 
-                                    parentPanel.remove(1);
-                                    parentPanel.add(new FileList(listModel, parentPanel));
-                                    parentPanel.setMinimumSize(new Dimension(400, children.length * 20));
-                                    parentPanel.revalidate();
-                                    parentPanel.repaint();
+                                    resetFileList(listModel);
                                 }
                             }
                         }
                     }
                     else if(LocalFileSystem.getInstance().findFileByPath(directory) != null){
-                        System.out.println("Not a directory");
                         VirtualFile directoryFile = LocalFileSystem.getInstance().findFileByPath(directory);
                         VirtualFile[] children = directoryFile.getChildren();
 
@@ -138,15 +122,9 @@ public class PathTextField extends JTextField{
                         String newPathText = matchingFiles(childPaths, filePrefix);
                         if(newPathText.equals(filePrefix)) {
                             setText(directory);
-                            parentPanel.remove(1);
-                            parentPanel.add(new FileList(listModel, parentPanel));
-                            parentPanel.setMinimumSize(new Dimension(400, children.length * 20));
-                            parentPanel.revalidate();
-                            parentPanel.repaint();
+                            resetFileList(listModel);
                         }
                         else {
-                            System.out.println("newPathText " + newPathText);
-
                             setText(directory + newPathText);
                         }
 
@@ -160,6 +138,14 @@ public class PathTextField extends JTextField{
             });
         }
     };
+
+    private void resetFileList(DefaultListModel listModel) {
+        parentPanel.remove(parentPanel.LIST_POSITION);
+        parentPanel.add(new FileList(listModel, parentPanel));
+        //parentPanel.setMinimumSize(new Dimension(4000, 20));
+        parentPanel.revalidate();
+        parentPanel.repaint();
+    }
 
     Action loadFile = new AbstractAction() {
         @Override
