@@ -30,9 +30,6 @@ public class PopupAction extends AnAction {
         pathTexField.setText(currentFile.getPath());
         outerPanel.add(panel);
 
-
-
-
         popup.showInBestPositionFor(e.getData(PlatformDataKeys.EDITOR));
 
 

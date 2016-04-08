@@ -31,8 +31,10 @@ public class FileList extends JBList implements ListSelectionListener {
         if(!e.getValueIsAdjusting()) {
             FileList list = (FileList) e.getSource();
 
-            String filePath = parentPanel.getPathTextField().getText() + list.getSelectedValue();
-            VirtualFile file = LocalFileSystem.getInstance().findFileByPath(filePath);
+            String typedPath = parentPanel.getPathTextField().getText();
+            String selectedFilePath = typedPath.substring(0, typedPath.lastIndexOf("/") + 1) + list.getSelectedValue();
+
+            VirtualFile file = LocalFileSystem.getInstance().findFileByPath(selectedFilePath);
             OpenFileDescriptor ofd = new OpenFileDescriptor(parentPanel.getProject(), file);
             ofd.navigate(false);
             parentPanel.getPopup().closeOk(null);

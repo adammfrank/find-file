@@ -65,4 +65,14 @@ public class MainPanel extends JPanel {
     public JBPopup getPopup() {
         return popup;
     }
+
+    public void resetFileList(DefaultListModel listModel) {
+
+        this.remove(this.LIST_POSITION);
+
+        this.add(new FileList(listModel, this));
+
+        this.revalidate();
+        this.repaint();
+    }
 }
